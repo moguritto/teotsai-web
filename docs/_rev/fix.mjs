@@ -34,8 +34,8 @@ export async function run(tag, forcePath) {
   let path = forcePath || decodeURIComponent(location.pathname); if(!path.endsWith('/')) path+='/';
   const cp = DATA[repo] && DATA[repo][path];
   if (!cp) return JSON.stringify({p:path,err:'sin copia'});
-  for (let y=0; y<document.body.scrollHeight; y+=600) { window.scrollTo(0,y); await new Promise(r=>setTimeout(r,50)); }
-  await new Promise(r=>setTimeout(r,600)); window.scrollTo(0,0);
+  for (let y=0; y<document.body.scrollHeight; y+=1500) { window.scrollTo(0,y); await new Promise(r=>setTimeout(r,40)); }
+  await new Promise(r=>setTimeout(r,400)); window.scrollTo(0,0);
   const o = SIG(), c = cp[tag] || [];
   const R = {p:path, t:tag, H:[], G:[], miss:{}};
   const used = new Set();
