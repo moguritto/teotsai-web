@@ -87,5 +87,5 @@ export async function run(tag, forcePath) {
   R.TX = exc;
   const has = (arr,k,v,n) => arr.some(x=>x.k===k && (x.v===v || (x.v && v && x.v.slice(0,n)===v.slice(0,n))));
   for (const k of ['B','V']) { const n=k==='I'?14:12; const miss=[...new Set(o.filter(x=>x.k===k&&!x.bg&&x.v&&!has(c,k,x.v,n)).map(x=>x.v.slice(0,30)))]; if(miss.length) R.miss[k]=miss; }
-  let out=path+' '+tag; if(R.H.length) out+='\nH '+R.H.join(';'); if(R.G.length) out+='\nG '+R.G.join(';'); if(R.TP.length) out+='\nTP '+R.TP.join(';'); if(R.TX.length) out+='\nTX '+R.TX.slice(0,40).join(';')+(R.TX.length>40?' +'+(R.TX.length-40):''); for(const k in R.miss) out+='\nM'+k+' '+R.miss[k].join('|'); return out;
+  let out=path+' '+tag; if(R.H.length) out+='\nH '+R.H.join(';'); if(R.G.length) out+='\nG '+R.G.join(';'); if(R.TP.length) out+='\nTP '+R.TP.join(';'); if(R.TX.length) out+='\nTX '+R.TX.slice(0,120).join(';')+(R.TX.length>120?' +'+(R.TX.length-120):''); for(const k in R.miss) out+='\nM'+k+' '+R.miss[k].join('|'); return out;
 }
