@@ -47,16 +47,15 @@ export async function run(tag, forcePath) {
     if ((h.ff||'').toLowerCase()!==(m.ff||'').toLowerCase()) d.push('ff');
     if (Math.abs(parseInt(h.fw)-parseInt(m.fw))>=200) d.push('fw');
     if (h.tt!==m.tt) d.push('tt');
-    if (d.length) R.H.push([h.v.slice(0,40), h.fs, hex(h.c), h.ff, h.fw, h.tt, d.join('')]);
+    if (d.length) R.H.push(h.v.slice(0,20)+'~'+h.fs+(d.includes('c')?'~c'+hex(h.c):'')+(d.includes('ff')?'~f'+h.ff:'')+(d.includes('fw')?'~w'+h.fw:'')+(d.includes('tt')?'~t'+h.tt:''));
   }
   for (const g of o.filter(x=>x.k==='I'&&x.bg)) {
     const m = c.find(x=>x.k==='I'&&x.bg&&x.v.slice(0,14)===g.v.slice(0,14));
-    if (!m) { R.G.push([g.v, g.h, g.ov, g.bp, 'nobg']); continue; }
+    if (!m) { R.G.push(g.v.slice(0,24)+'~nobg~'+g.h); continue; }
     const d=[]; if (g.ov!==m.ov) d.push('ov'); if (m.h/g.h<0.85||m.h/g.h>1.18) d.push('h');
-    if (d.length) R.G.push([g.v, g.h, g.ov, g.bp, d.join('')+' copia:'+m.h]);
+    if (d.length) R.G.push(g.v.slice(0,24)+'~'+g.h+'~'+g.ov+'~'+g.bp+'~c'+m.h);
   }
   const has = (arr,k,v,n) => arr.some(x=>x.k===k && (x.v===v || (x.v && v && x.v.slice(0,n)===v.slice(0,n))));
   for (const k of ['I','B','V']) { const n=k==='I'?14:12; const miss=[...new Set(o.filter(x=>x.k===k&&!x.bg&&x.v&&!has(c,k,x.v,n)).map(x=>x.v.slice(0,30)))]; if(miss.length) R.miss[k]=miss; }
-  if (!R.H.length) delete R.H; if (!R.G.length) delete R.G; if (!Object.keys(R.miss).length) delete R.miss;
-  return JSON.stringify(R);
+  let out=path+' '+tag; if(R.H.length) out+='\nH '+R.H.join(';'); if(R.G.length) out+='\nG '+R.G.join(';'); for(const k in R.miss) out+='\nM'+k+' '+R.miss[k].join('|'); return out;
 }
