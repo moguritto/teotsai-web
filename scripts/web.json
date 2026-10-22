@@ -1,0 +1,50 @@
+{
+ "nombre": "TEOTS AI",
+ "dominio": "teotsai.com",
+ "repo": "teotsai-web",
+ "idioma": "gl",
+ "fuentes": "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Roboto+Slab:wght@300;400&display=swap",
+ "favicon": "img/favicon.png",
+ "logo": "img/cropped-image-7.webp",
+ "texto_menu": "Abrir o menú",
+ "menu": [
+  {
+   "texto": "Inicio",
+   "url": "https://teotsai.com/"
+  },
+  {
+   "texto": "Como funciona",
+   "url": "https://teotsai.com/gemini/"
+  },
+  {
+   "texto": "Principios e privacidade",
+   "url": "https://teotsai.com/deepmind/"
+  }
+ ],
+ "contacto": {},
+ "enlaces": {},
+ "titulo_404": "Páxina non atopada",
+ "texto_404": "<section class=\"bloque\"><div class=\"ancho\"><h1>Páxina non atopada</h1><p>A páxina que buscas non existe ou cambiou de enderezo.</p><p class=\"botones\"><a class=\"boton\" href=\"@RAIZ@/./\">Ir ao inicio</a></p></div></section>",
+ "estilo": {
+  "color-fondo": "#FFFFFF",
+  "color-texto": "#5F6368",
+  "color-titulos": "#202124",
+  "color-enlace": "#174EA6",
+  "color-boton": "#174EA6",
+  "color-boton-texto": "#FFFFFF",
+  "color-cabecera": "#FFFFFF",
+  "color-menu": "#202124",
+  "color-menu-activo": "#174EA6",
+  "color-pie": "#F8F9FA",
+  "color-pie-texto": "#5F6368",
+  "fuente-texto": "\"Roboto\", sans-serif",
+  "peso-texto": "400",
+  "fuente-titulos": "\"Roboto\", sans-serif",
+  "peso-titulos": "400",
+  "fuente-menu": "\"Roboto\", sans-serif",
+  "ancho": "1100px",
+  "alto-logo": "48px",
+  "radio-boton": "24px"
+ },
+ "css_extra": ".portada { padding: 96px 0 72px; background: linear-gradient(180deg, #FFF8EC 0%, #FFFFFF 100%); }\n.portada h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); margin-top: 0; }\n.entradilla { font-size: 1.25rem; max-width: 760px; color: #3C4043; }\n.bloque.gris { background: #F8F9FA; }\n.caja { background: #fff; border: 1px solid #E8EAED; border-radius: 16px; padding: 24px; height: 100%; }\n.caja h3 { font-size: 1.15rem; margin-top: 0; color: #202124; }\n.lente { border-top: 4px solid #F29900; }\n.aviso-sobrio { font-size: .95em; color: #5F6368; border-left: 3px solid #F29900; padding-left: 14px; }\n.pie .columnas { gap: 24px; }\n"
+}

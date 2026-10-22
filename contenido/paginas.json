@@ -1,0 +1,41 @@
+{
+ "": {
+  "titulo": "TEOTS AI · Intelixencia artificial ao servizo da terapia",
+  "descripcion": "TEOTS AI: ferramentas de intelixencia artificial como apoio á práctica terapéutica, cun marco propio, a Nota HADA.",
+  "origen": "texto propio",
+  "plantilla": "normal",
+  "avisos": []
+ },
+ "gemini/": {
+  "titulo": "Como funciona",
+  "descripcion": "Como axuda TEOTS AI a documentar as sesións coa Nota HADA e as súas catro lentes.",
+  "origen": "texto propio",
+  "plantilla": "normal",
+  "avisos": []
+ },
+ "deepmind/": {
+  "titulo": "Principios e privacidade",
+  "descripcion": "Os principios de TEOTS AI: a IA acompaña, datos en local e pseudónimos, revisión humana e sen fins comerciais.",
+  "origen": "texto propio",
+  "plantilla": "normal",
+  "avisos": []
+ },
+ "aviso-legal/": {
+  "titulo": "Aviso legal",
+  "descripcion": "",
+  "origen": "https://espacioteots.org/aviso-legal/ (datos del titular, dominio adaptado)",
+  "plantilla": "normal",
+  "cabecera": null,
+  "pie": null,
+  "avisos": []
+ },
+ "politica-de-privacidad/": {
+  "titulo": "Política de privacidade",
+  "descripcion": "",
+  "origen": "https://espacioteots.org/politica-de-privacidad/ (datos del titular, dominio adaptado)",
+  "plantilla": "normal",
+  "cabecera": null,
+  "pie": null,
+  "avisos": []
+ }
+}
