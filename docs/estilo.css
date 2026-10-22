@@ -187,3 +187,8 @@ strong, b { font-weight: 700; }
 .lente { border-top: 4px solid #F29900; }
 .aviso-sobrio { font-size: .95em; color: #5F6368; border-left: 3px solid #F29900; padding-left: 14px; }
 .pie .columnas { gap: 24px; }
+h1.como-h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); }
+h2.como-h1 { font-size: clamp(2rem, 5vw, 3rem); }
+.oculto { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+h1.como-h3 { font-size: 1.35rem; }
+h1.como-h4 { font-size: 1.1rem; }
