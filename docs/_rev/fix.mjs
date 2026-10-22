@@ -1,5 +1,4 @@
-const SIG = (
-() => {
+const SIG = (() => {
   const vw = document.documentElement.clientWidth;
   const norm = s => (s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9ñ]+/g,' ').trim();
   const imgKey = u => { if(!u) return ''; try{u=decodeURIComponent(u)}catch(e){}; let b=u.split('?')[0].split('#')[0].split('/').pop().toLowerCase();
@@ -18,6 +17,19 @@ const SIG = (
     else if (t==='A'||t==='BUTTON') { if(!vis(e)) continue; const cs=getComputedStyle(e); const bg=cs.backgroundColor; const btn=(bg&&bg!=='rgba(0, 0, 0, 0)'&&bg!=='transparent')||parseFloat(cs.borderTopWidth)>0; const s=norm(e.textContent); if(btn&&s&&s.length<40) out.push({k:'B',v:s}); }
     else { const bi=getComputedStyle(e).backgroundImage; if(bi&&bi.includes('url(')){ const r=e.getBoundingClientRect(); if(r.width>150&&r.height>80&&vis(e)){ const m=bi.match(/url\(["']?([^"')]+)/); if(m){ const ovl=[]; const b4=getComputedStyle(e,'::before'); if(b4.content!=='none'&&b4.backgroundColor!=='rgba(0, 0, 0, 0)') ovl.push(b4.backgroundColor+'@'+b4.opacity); const oc=[...e.children].find(x=>/overlay|capa|velo/.test(x.className)); if(oc){const oc2=getComputedStyle(oc); if(oc2.backgroundColor!=='rgba(0, 0, 0, 0)'||oc2.backgroundImage!=='none') ovl.push(oc2.backgroundColor+'@'+oc2.opacity+(oc2.backgroundImage!=='none'?' '+oc2.backgroundImage.slice(0,90):''));} out.push({k:'I',v:imgKey(m[1]),bg:1,h:Math.round(r.height),ov:ovl.join('|'),bp:getComputedStyle(e).backgroundPosition}); } } } }
   }
+
+  // texto: bloques hoja con 2+ palabras
+  const tcount = {n:0};
+  document.body.querySelectorAll('p,li,a,span,div,td,blockquote,figcaption,label').forEach(e=>{
+    if (tcount.n>500 || skip(e)) return;
+    if ([...e.children].some(c=>/^(P|DIV|UL|OL|LI|H[1-6]|TABLE|SECTION|BLOCKQUOTE|FIGURE)$/.test(c.tagName))) return;
+    if (e.closest('h1,h2,h3,h4,h5,h6,button')) return;
+    const raw=e.textContent.replace(/\s+/g,' ').trim(); if (raw.split(' ').length<2 || raw.length<5) return;
+    if (/^(SPAN|A)$/.test(e.tagName) && e.parentElement && e.parentElement.textContent.replace(/\s+/g,' ').trim()!==raw) return;
+    if (!vis(e)) return;
+    const cs=getComputedStyle(e); tcount.n++;
+    out.push({k:'T',v:norm(raw).slice(0,40),fs:Math.round(parseFloat(cs.fontSize)),c:cs.color,fw:cs.fontWeight,ta:cs.textAlign,ff:cs.fontFamily.split(',')[0].replace(/["']/g,'').trim(),u:cs.textDecorationLine.includes('underline')?1:0,lh:Math.round(parseFloat(cs.lineHeight)||0)});
+  });
   // dedupe consecutive duplicates
   const res=[]; for(const o of out){ const l=res[res.length-1]; if(l&&l.k===o.k&&l.v===o.v) continue; res.push(o);}
   return res;
@@ -55,7 +67,25 @@ export async function run(tag, forcePath) {
     const d=[]; if (g.ov!==m.ov) d.push('ov'); if (m.h/g.h<0.85||m.h/g.h>1.18) d.push('h');
     if (d.length) R.G.push(g.v.slice(0,24)+'~'+g.h+'~'+g.ov+'~'+g.bp+'~c'+m.h);
   }
+
+  // ---- texto
+  const usedT=new Set(); const pairs={}; const exc=[];
+  for (const t of o.filter(x=>x.k==='T')) {
+    const i=c.findIndex((x,j)=>!usedT.has(j)&&x.k==='T'&&x.v.slice(0,16)===t.v.slice(0,16)); if(i<0) continue; usedT.add(i); const m=c[i];
+    const d=[];
+    if (Math.abs(m.fs-t.fs)>1.5) d.push('s'+t.fs);
+    if (cdist(t.c,m.c)>40) d.push('c'+hex(t.c));
+    if (Math.abs(parseInt(t.fw)-parseInt(m.fw))>=200) d.push('w'+t.fw);
+    if (t.ta!==m.ta && !(['start','left'].includes(t.ta)&&['start','left'].includes(m.ta))) d.push('a'+t.ta);
+    if ((t.ff||'').toLowerCase()!==(m.ff||'').toLowerCase()) d.push('f'+t.ff);
+    if (t.u!==m.u) d.push('u'+t.u);
+    if (!d.length) continue;
+    for (const x of d) { const key=x+'<'+(x[0]==='s'?m.fs:x[0]==='c'?hex(m.c):x[0]==='w'?m.fw:x[0]==='a'?m.ta:x[0]==='f'?m.ff:m.u); pairs[key]=(pairs[key]||0)+1; }
+    exc.push(t.v.slice(0,18)+'~'+d.join('~'));
+  }
+  R.TP = Object.entries(pairs).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k,n])=>k+'x'+n);
+  R.TX = exc;
   const has = (arr,k,v,n) => arr.some(x=>x.k===k && (x.v===v || (x.v && v && x.v.slice(0,n)===v.slice(0,n))));
-  for (const k of ['I','B','V']) { const n=k==='I'?14:12; const miss=[...new Set(o.filter(x=>x.k===k&&!x.bg&&x.v&&!has(c,k,x.v,n)).map(x=>x.v.slice(0,30)))]; if(miss.length) R.miss[k]=miss; }
-  let out=path+' '+tag; if(R.H.length) out+='\nH '+R.H.join(';'); if(R.G.length) out+='\nG '+R.G.join(';'); for(const k in R.miss) out+='\nM'+k+' '+R.miss[k].join('|'); return out;
+  for (const k of ['B','V']) { const n=k==='I'?14:12; const miss=[...new Set(o.filter(x=>x.k===k&&!x.bg&&x.v&&!has(c,k,x.v,n)).map(x=>x.v.slice(0,30)))]; if(miss.length) R.miss[k]=miss; }
+  let out=path+' '+tag; if(R.H.length) out+='\nH '+R.H.join(';'); if(R.G.length) out+='\nG '+R.G.join(';'); if(R.TP.length) out+='\nTP '+R.TP.join(';'); if(R.TX.length) out+='\nTX '+R.TX.slice(0,40).join(';')+(R.TX.length>40?' +'+(R.TX.length-40):''); for(const k in R.miss) out+='\nM'+k+' '+R.miss[k].join('|'); return out;
 }
