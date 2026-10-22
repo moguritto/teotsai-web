@@ -28,10 +28,10 @@ let DATA = null;
 const short = s => (s||'').slice(0,22);
 const rgb = c => (c.match(/\d+/g)||[0,0,0]).slice(0,3).map(Number);
 const cdist = (a,b) => { const x=rgb(a),y=rgb(b); return Math.hypot(x[0]-y[0],x[1]-y[1],x[2]-y[2]); };
-export async function run(tag) {
+export async function run(tag, forcePath) {
   if (!DATA) DATA = await fetch('https://moguritto.github.io/teotsai-web/_rev/sigs.json?'+Date.now()).then(r=>r.json());
   const host = location.hostname.replace(/^www\./,''); const repo = REPO[host];
-  let path = decodeURIComponent(location.pathname); if(!path.endsWith('/')) path+='/';
+  let path = forcePath || decodeURIComponent(location.pathname); if(!path.endsWith('/')) path+='/';
   const cp = DATA[repo] && DATA[repo][path];
   if (!cp) return `${host}${path}: SIN COPIA`;
   for (let y=0; y<document.body.scrollHeight; y+=600) { window.scrollTo(0,y); await new Promise(r=>setTimeout(r,60)); }
