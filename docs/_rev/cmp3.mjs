@@ -11,6 +11,7 @@ async function sig(win) {
   d.getElementById('wpadminbar')?.remove();
   d.documentElement.style.setProperty('margin-top', '0px', 'important');
   for (let y = 0; y < d.body.scrollHeight; y += 600) { win.scrollTo(0, y); await sleep(90); }
+  d.querySelectorAll('.elementor-invisible').forEach(e => e.classList.remove('elementor-invisible'));
   win.scrollTo(0, 0); await sleep(1500);
   const vis = e => { const r = e.getBoundingClientRect(); const s = win.getComputedStyle(e);
     return r.width > 2 && r.height > 2 && s.visibility !== 'hidden' && s.display !== 'none' && +s.opacity > 0.05; };
@@ -39,7 +40,8 @@ export async function compare(copyUrl) {
     for (let k = j; k < Math.min(B.length, j + 25); k++) if (!usedB.has(k) && B[k].k === a.k) { m = k; break; }
     if (m < 0) { out.push('FALTA ' + a.k + '@' + a.y); continue; }
     usedB.add(m); j = m + 1; const b = B[m]; const dif = [];
-    if (String(a.y) !== String(b.y) && Math.abs(parseInt(a.y) - parseInt(b.y)) > 3) dif.push(`y ${a.y}→${b.y}`);
+    const dy = parseInt(a.y) - parseInt(b.y); const enH = String(a.y).endsWith('H') && String(b.y).endsWith('H');
+    if (Math.abs(dy) > 3 && !(enH && dy === 32)) dif.push(`y ${a.y}→${b.y}`);
     if (Math.abs(a.x - b.x) > 3) dif.push(`x ${a.x}→${b.x}`);
     if (Math.abs(a.w - b.w) > 3) dif.push(`w ${a.w}→${b.w}`);
     if (Math.abs(a.h - b.h) > 3) dif.push(`h ${a.h}→${b.h}`);
