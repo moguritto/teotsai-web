@@ -15,8 +15,9 @@ export async function sig() {
   const els = [...document.querySelectorAll('h1,h2,h3,h4,h5,h6,p,li,img,video,iframe,.elementor-button,.elementor-icon')].filter(vis);
   const H = els.map(e => { const r = e.getBoundingClientRect(); const s = getComputedStyle(e);
     const t = e.tagName.toLowerCase();
+    const hd = e.closest('[data-elementor-type="header"], header'); const top = hd ? hd.getBoundingClientRect().top + scrollY : 0;
     const st = /^(img|video|iframe)$/.test(t) ? '' : `|${s.fontFamily.split(',')[0].replace(/"/g, '')} ${s.fontSize} ${s.fontWeight} ${s.color}`;
-    return `${t}:${name(e)}@${Math.round(r.top + scrollY)},${Math.round(r.left)},${Math.round(r.width)}x${Math.round(r.height)}${st}`; });
+    return `${t}:${name(e)}@${hd ? 'H' : ''}${Math.round(r.top + scrollY - top)},${Math.round(r.left)},${Math.round(r.width)}x${Math.round(r.height)}${st}`; });
   window.__H = H;
   let x = 0; for (const c of H.join('\n')) x = (x * 31 + c.charCodeAt(0)) | 0;
   return `${document.documentElement.scrollHeight}/${H.length}/${(x >>> 0).toString(36)}`;
