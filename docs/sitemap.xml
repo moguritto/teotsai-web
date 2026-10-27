@@ -1,8 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://teotsai.com/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://teotsai.com/gemini/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://teotsai.com/deepmind/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://teotsai.com/aviso-legal/</loc><lastmod>2026-10-22</lastmod></url>
-  <url><loc>https://teotsai.com/politica-de-privacidad/</loc><lastmod>2026-10-22</lastmod></url>
-</urlset>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://teotsai.com/</loc></url><url><loc>https://teotsai.com/aviso-legal/</loc></url><url><loc>https://teotsai.com/politica-de-privacidad/</loc></url></urlset>
